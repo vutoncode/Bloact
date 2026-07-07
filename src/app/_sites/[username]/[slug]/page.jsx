@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { createClient } from '../../../../lib/supabase/server'
-import ContentRenderer from '../../../../components/ContentRenderer'
-import ViewCounter from '../../../../components/ViewCounter'
+import HienThiNoiDung from '../../../../components/HienThiNoiDung'
+import BoDemLuotXem from '../../../../components/BoDemLuotXem'
 
 export async function generateMetadata({ params }) {
   const { username, slug } = await params
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function BlogPostDetailPage({ params }) {
+export default async function TrangChiTietBaiViet({ params }) {
   const { username, slug } = await params
   const supabase = await createClient()
 
@@ -79,7 +79,7 @@ export default async function BlogPostDetailPage({ params }) {
 
   return (
     <div className="container" style={{ maxWidth: '800px' }}>
-      <ViewCounter postId={post.id} />
+      <BoDemLuotXem postId={post.id} />
       
       <article>
         {post.cover_image_url && (
@@ -96,7 +96,7 @@ export default async function BlogPostDetailPage({ params }) {
           Đăng ngày {new Date(post.published_at || post.created_at).toLocaleDateString('vi-VN')} &bull; {post.view_count || 0} lượt xem
         </div>
         
-        <ContentRenderer json={post.content} />
+        <HienThiNoiDung json={post.content} />
       </article>
     </div>
   )

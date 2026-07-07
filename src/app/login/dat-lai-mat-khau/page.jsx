@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '../../../lib/supabase/client'
 
-export default function DatLaiMatKhauPage() {
+export default function TrangDatLaiMatKhau() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

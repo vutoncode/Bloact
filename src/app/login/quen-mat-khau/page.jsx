@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '../../../lib/supabase/client'
 
-export default function QuenMatKhauPage() {
+export default function TrangQuenMatKhau() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

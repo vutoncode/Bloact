@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '../../../lib/supabase/server'
 
-export default async function BlogHomePage({ params }) {
+export default async function TrangChuBlogCaNhan({ params }) {
   const { username } = await params
   const supabase = await createClient()
 

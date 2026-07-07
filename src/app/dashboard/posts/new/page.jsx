@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '../../../../lib/supabase/server'
-import DashboardNav from '../../../../components/DashboardNav'
-import Editor from '../../../../components/Editor'
+import ThanhDieuHuongDashboard from '../../../../components/ThanhDieuHuongDashboard'
+import TrinhSoanThao from '../../../../components/TrinhSoanThao'
 
-export default async function NewPostPage() {
+export default async function TrangVietBaiMoi() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -23,9 +23,9 @@ export default async function NewPostPage() {
 
   return (
     <div className="dashboard-container">
-      <DashboardNav profile={profile} activePath="new-post" />
+      <ThanhDieuHuongDashboard profile={profile} activePath="new-post" />
       <main className="dashboard-main">
-        <Editor userId={user.id} />
+        <TrinhSoanThao userId={user.id} />
       </main>
     </div>
   )

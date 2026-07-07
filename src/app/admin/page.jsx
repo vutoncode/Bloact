@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '../../lib/supabase/server'
-import AdminNav from '../../components/AdminNav'
+import ThanhDieuHuongAdmin from '../../components/ThanhDieuHuongAdmin'
 
-export default async function AdminDashboardPage() {
+export default async function TrangOverviewQuanTri() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -48,7 +48,7 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="dashboard-container">
-      <AdminNav profile={profile} activePath="admin-dashboard" />
+      <ThanhDieuHuongAdmin profile={profile} activePath="admin-dashboard" />
       
       <main className="dashboard-main">
         <div className="dashboard-header">

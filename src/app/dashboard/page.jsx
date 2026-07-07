@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '../../lib/supabase/server'
-import DashboardNav from '../../components/DashboardNav'
-import PostsTable from '../../components/PostsTable'
+import ThanhDieuHuongDashboard from '../../components/ThanhDieuHuongDashboard'
+import BangBaiViet from '../../components/BangBaiViet'
 
-export default async function DashboardPage() {
+export default async function TrangQuanLy() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -34,7 +34,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="dashboard-container">
-      <DashboardNav profile={profile} activePath="dashboard" />
+      <ThanhDieuHuongDashboard profile={profile} activePath="dashboard" />
       
       <main className="dashboard-main">
         <div className="dashboard-header">
@@ -71,7 +71,7 @@ export default async function DashboardPage() {
 
         <div style={{ marginBottom: '24px' }}>
           <h2 style={{ marginBottom: '16px' }}>Danh sách bài viết</h2>
-          <PostsTable initialPosts={posts} username={profile.username} />
+          <BangBaiViet initialPosts={posts} username={profile.username} />
         </div>
       </main>
     </div>

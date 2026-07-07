@@ -11,7 +11,7 @@ const RESERVED_KEYWORDS = [
   'dat-lai-mat-khau', 'admin-panel', 'posts', 'users', 'auth'
 ]
 
-export default function OnboardingPage() {
+export default function TrangThietLapTenMien() {
   const [username, setUsername] = useState('')
   const [loading, setLoading] = useState(false)
   const [checking, setChecking] = useState(false)

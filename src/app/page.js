@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { createClient } from '../lib/supabase/server'
 
-export default async function LandingPage() {
+export default async function TrangChu() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
