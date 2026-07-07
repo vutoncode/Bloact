@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { createClient } from '../../../lib/supabase/server'
+import { createClient } from '../../lib/supabase/server'
 
 export default async function BoKhungBlogCaNhan({ children, params }) {
   const { username } = await params
@@ -27,7 +27,7 @@ export default async function BoKhungBlogCaNhan({ children, params }) {
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-primary)', padding: '24px 0' }}>
         <div className="container flex align-center justify-between flex-wrap gap-sm">
-          <Link href="/" className="flex align-center gap-sm">
+          <Link href={`/${username}`} className="flex align-center gap-sm">
             <img 
               src={profile.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop'} 
               alt={profile.display_name} 
@@ -39,7 +39,7 @@ export default async function BoKhungBlogCaNhan({ children, params }) {
             </div>
           </Link>
           <nav className="flex align-center gap-md">
-            <Link href="/" style={{ fontWeight: '500' }}>Bài viết</Link>
+            <Link href={`/${username}`} style={{ fontWeight: '500' }}>Bài viết</Link>
             <a href={`http://${process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000'}`} className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '14px' }}>
               Tạo Blog Ở Bloact
             </a>

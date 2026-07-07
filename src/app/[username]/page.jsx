@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { createClient } from '../../../lib/supabase/server'
+import { createClient } from '../../lib/supabase/server'
 
 export default async function TrangChuBlogCaNhan({ params }) {
   const { username } = await params
@@ -31,7 +31,7 @@ export default async function TrangChuBlogCaNhan({ params }) {
             return (
               <article key={post.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
                 {post.cover_image_url && (
-                  <Link href={`/${post.slug}`}>
+                  <Link href={`/${username}/${post.slug}`}>
                     <img 
                       src={post.cover_image_url} 
                       alt={post.title} 
@@ -44,7 +44,7 @@ export default async function TrangChuBlogCaNhan({ params }) {
                     {new Date(post.published_at || post.created_at).toLocaleDateString('vi-VN')} &bull; {readTime} phút đọc
                   </div>
                   <h2 style={{ fontSize: '28px', marginBottom: '16px' }}>
-                    <Link href={`/${post.slug}`} style={{ color: 'var(--text-primary)' }}>
+                    <Link href={`/${username}/${post.slug}`} style={{ color: 'var(--text-primary)' }}>
                       {post.title}
                     </Link>
                   </h2>
@@ -53,7 +53,7 @@ export default async function TrangChuBlogCaNhan({ params }) {
                       {post.excerpt}
                     </p>
                   )}
-                  <Link href={`/${post.slug}`} className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '14px' }}>
+                  <Link href={`/${username}/${post.slug}`} className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '14px' }}>
                     Đọc tiếp
                   </Link>
                 </div>

@@ -22,7 +22,7 @@ export default function ThanhDieuHuongDashboard({ profile, activePath }) {
   }
 
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000'
-  const blogUrl = profile?.username ? `http://${profile.username}.${mainDomain}` : '#'
+  const blogUrl = profile?.username ? `http://${mainDomain}/${profile.username}` : '#'
 
   return (
     <aside className="sidebar">

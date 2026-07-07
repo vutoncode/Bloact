@@ -46,13 +46,18 @@ create policy "public_read_profiles" on public.profiles
 create policy "user_update_own_profile" on public.profiles
   for update using (auth.uid() = id);
 
-create policy "admin_all_profiles" on public.profiles
-  for all using (
-    exists (
-      select 1 from public.profiles
-      where id = auth.uid() and role = 'admin'
-    )
+create or replace function public.is_admin()
+returns boolean as $$
+begin
+  return exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role = 'admin'
   );
+end;
+$$ language plpgsql security definer;
+
+create policy "admin_all_profiles" on public.profiles
+  for all using (public.is_admin());
 
 create policy "public_read_published_posts" on public.posts
   for select using (status = 'published');
@@ -64,20 +69,10 @@ create policy "author_all_own_posts" on public.posts
   for all using (auth.uid() = author_id);
 
 create policy "admin_all_posts" on public.posts
-  for all using (
-    exists (
-      select 1 from public.profiles
-      where id = auth.uid() and role = 'admin'
-    )
-  );
+  for all using (public.is_admin());
 
 create policy "admin_all_moderation_logs" on public.moderation_logs
-  for all using (
-    exists (
-      select 1 from public.profiles
-      where id = auth.uid() and role = 'admin'
-    )
-  );
+  for all using (public.is_admin());
 
 create function public.handle_new_user()
 returns trigger as $$

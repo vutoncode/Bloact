@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
-import { createClient } from '../../../../lib/supabase/server'
-import HienThiNoiDung from '../../../../components/HienThiNoiDung'
-import BoDemLuotXem from '../../../../components/BoDemLuotXem'
+import { createClient } from '../../../lib/supabase/server'
+import HienThiNoiDung from '../../../components/HienThiNoiDung'
+import BoDemLuotXem from '../../../components/BoDemLuotXem'
 
 export async function generateMetadata({ params }) {
   const { username, slug } = await params
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
   if (!post) return {}
 
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000'
-  const canonicalUrl = `http://${username}.${mainDomain}/${slug}`
+  const canonicalUrl = `http://${mainDomain}/${username}/${slug}`
 
   return {
     title: `${post.seo_title || post.title} | ${username}`,

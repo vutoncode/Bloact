@@ -114,7 +114,7 @@ export default function TrangThietLapTenMien() {
   }
 
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000'
-  const blogUrl = `http://${username}.${mainDomain}`
+  const blogUrl = `http://${mainDomain}/${username}`
 
   return (
     <div className="flex justify-center align-center" style={{ minHeight: '100vh', padding: '24px', backgroundColor: 'var(--bg-secondary)' }}>
@@ -132,7 +132,7 @@ export default function TrangThietLapTenMien() {
             <div style={{ marginBottom: '24px', padding: '16px', backgroundColor: 'var(--bg-tertiary)', borderRadius: 'var(--radius-md)' }}>
               <p style={{ fontSize: '14px', fontWeight: '600' }}>Địa chỉ blog của bạn:</p>
               <a href={blogUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)', fontWeight: 'bold', fontSize: '18px', display: 'block', marginTop: '8px', wordBreak: 'break-all' }}>
-                {username}.{mainDomain}
+                {mainDomain}/{username}
               </a>
             </div>
             <button onClick={() => { router.push('/dashboard'); router.refresh(); }} className="btn btn-primary w-full" style={{ height: '48px' }}>
@@ -160,7 +160,7 @@ export default function TrangThietLapTenMien() {
             </div>
 
             <div style={{ marginTop: '8px', marginBottom: '24px', fontSize: '14px', color: 'var(--text-secondary)' }}>
-              Địa chỉ dự kiến: <strong style={{ color: 'var(--text-primary)' }}>{username || 'username'}.{mainDomain}</strong>
+              Địa chỉ dự kiến: <strong style={{ color: 'var(--text-primary)' }}>{mainDomain}/{username || 'username'}</strong>
             </div>
 
             <button type="submit" className="btn btn-primary w-full" style={{ height: '48px' }} disabled={loading || checking || !!error || !username}>

@@ -51,7 +51,7 @@ export default function BangBaiViet({ initialPosts, username }) {
           </thead>
           <tbody>
             {posts.map((post) => {
-              const postUrl = `http://${username}.${mainDomain}/${post.slug}`
+              const postUrl = `http://${mainDomain}/${username}/${post.slug}`
               return (
                 <tr key={post.id}>
                   <td style={{ width: '80px' }}>
