@@ -72,11 +72,29 @@ export default function ThanhDieuHuongDashboard({ profile, activePath }) {
         </button>
 
         <div className="sidebar-profile">
-          <img 
-            src={profile?.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop'} 
-            alt="Avatar" 
-            className="avatar" 
-          />
+          {profile?.avatar_url ? (
+            <img 
+              src={profile.avatar_url} 
+              alt="Avatar" 
+              className="avatar" 
+            />
+          ) : (
+            <div 
+              className="avatar" 
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                backgroundColor: 'var(--accent)', 
+                color: '#ffffff', 
+                fontWeight: 'bold', 
+                fontSize: '16px',
+                userSelect: 'none'
+              }}
+            >
+              {(profile?.display_name || profile?.username || 'U').charAt(0).toUpperCase()}
+            </div>
+          )}
           <div style={{ overflow: 'hidden' }}>
             <p style={{ fontWeight: '600', fontSize: '14px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden', color: 'var(--text-primary)' }}>
               {profile?.display_name || 'Người dùng'}

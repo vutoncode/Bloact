@@ -28,11 +28,29 @@ export default async function BoKhungBlogCaNhan({ children, params }) {
       <header style={{ borderBottom: '1px solid var(--border-color)', backgroundColor: 'var(--bg-primary)', padding: '24px 0' }}>
         <div className="container flex align-center justify-between flex-wrap gap-sm">
           <Link href={`/${username}`} className="flex align-center gap-sm">
-            <img 
-              src={profile.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop'} 
-              alt={profile.display_name} 
-              className="avatar" 
-            />
+            {profile.avatar_url ? (
+              <img 
+                src={profile.avatar_url} 
+                alt={profile.display_name} 
+                className="avatar" 
+              />
+            ) : (
+              <div 
+                className="avatar" 
+                style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  backgroundColor: 'var(--accent)', 
+                  color: '#ffffff', 
+                  fontWeight: 'bold', 
+                  fontSize: '16px',
+                  userSelect: 'none'
+                }}
+              >
+                {(profile.display_name || profile.username || 'U').charAt(0).toUpperCase()}
+              </div>
+            )}
             <div>
               <h2 style={{ fontSize: '20px', fontWeight: '700' }}>{profile.display_name}</h2>
               <p style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>@{profile.username}</p>

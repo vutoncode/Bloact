@@ -91,11 +91,29 @@ export default function DanhSachThanhVienAdmin({ initialUsers, adminId }) {
               <tr key={u.id}>
                 <td>
                   <div className="flex align-center gap-sm">
-                    <img 
-                      src={u.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop'} 
-                      alt={u.display_name} 
-                      className="avatar" 
-                    />
+                    {u.avatar_url ? (
+                      <img 
+                        src={u.avatar_url} 
+                        alt={u.display_name} 
+                        className="avatar" 
+                      />
+                    ) : (
+                      <div 
+                        className="avatar" 
+                        style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          backgroundColor: 'var(--accent)', 
+                          color: '#ffffff', 
+                          fontWeight: 'bold', 
+                          fontSize: '16px',
+                          userSelect: 'none'
+                        }}
+                      >
+                        {(u.display_name || u.username || 'U').charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div>
                       <div style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{u.display_name}</div>
                       <div style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>{u.email || 'Không có email'}</div>
