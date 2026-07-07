@@ -10,13 +10,23 @@ export async function middleware(request) {
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000'
 
   let subdomain = null
-  if (host && host !== mainDomain && host !== `www.${mainDomain}`) {
-    if (host.endsWith(`.${mainDomain}`)) {
-      subdomain = host.replace(`.${mainDomain}`, '')
-    } else {
-      const parts = host.split('.')
-      if (parts.length > 2) {
-        subdomain = parts[0]
+  if (host) {
+    const hostClean = host.split(':')[0]
+    const mainDomainClean = mainDomain.split(':')[0]
+
+    if (hostClean !== mainDomainClean && hostClean !== `www.${mainDomainClean}`) {
+      if (hostClean.endsWith('.vercel.app')) {
+        const parts = hostClean.split('.')
+        if (parts.length > 3) {
+          subdomain = parts[0]
+        }
+      } else if (hostClean.endsWith(`.${mainDomainClean}`)) {
+        subdomain = hostClean.slice(0, -(mainDomainClean.length + 1))
+      } else {
+        const parts = hostClean.split('.')
+        if (parts.length > 2) {
+          subdomain = parts[0]
+        }
       }
     }
   }
