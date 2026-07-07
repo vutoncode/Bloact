@@ -11,7 +11,6 @@ export default function TrangDangKy() {
   const [displayName, setDisplayName] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -26,7 +25,7 @@ export default function TrangDangKy() {
       return
     }
 
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -43,8 +42,8 @@ export default function TrangDangKy() {
       return
     }
 
-    setSuccess(true)
-    setLoading(false)
+    router.push('/onboarding')
+    router.refresh()
   }
 
   return (
@@ -58,59 +57,53 @@ export default function TrangDangKy() {
           <p style={{ marginTop: '8px' }}>Bắt đầu hành trình viết blog của bạn</p>
         </div>
 
-        {success ? (
-          <div className="badge badge-success text-center w-full" style={{ padding: '16px', display: 'block', borderRadius: 'var(--radius-md)' }}>
-            Đăng ký thành công! Vui lòng kiểm tra email của bạn để xác nhận tài khoản.
+        <form onSubmit={handleSignup}>
+          {error && (
+            <div className="badge badge-danger text-center w-full" style={{ padding: '12px', display: 'block', marginBottom: '20px', borderRadius: 'var(--radius-md)' }}>
+              {error}
+            </div>
+          )}
+
+          <div className="form-group">
+            <label className="form-label">Tên hiển thị</label>
+            <input
+              type="text"
+              className="form-control"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              placeholder="Nguyễn Văn A"
+              required
+            />
           </div>
-        ) : (
-          <form onSubmit={handleSignup}>
-            {error && (
-              <div className="badge badge-danger text-center w-full" style={{ padding: '12px', display: 'block', marginBottom: '20px', borderRadius: 'var(--radius-md)' }}>
-                {error}
-              </div>
-            )}
 
-            <div className="form-group">
-              <label className="form-label">Tên hiển thị</label>
-              <input
-                type="text"
-                className="form-control"
-                value={displayName}
-                onChange={(e) => setDisplayName(e.target.value)}
-                placeholder="Nguyễn Văn A"
-                required
-              />
-            </div>
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email@example.com"
+              required
+            />
+          </div>
 
-            <div className="form-group">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@example.com"
-                required
-              />
-            </div>
+          <div className="form-group">
+            <label className="form-label">Mật khẩu (tối thiểu 8 ký tự)</label>
+            <input
+              type="password"
+              className="form-control"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            />
+          </div>
 
-            <div className="form-group">
-              <label className="form-label">Mật khẩu (tối thiểu 8 ký tự)</label>
-              <input
-                type="password"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-              />
-            </div>
-
-            <button type="submit" className="btn btn-primary w-full" style={{ marginTop: '12px', height: '48px' }} disabled={loading}>
-              {loading ? 'Đang đăng ký...' : 'Đăng ký tài khoản'}
-            </button>
-          </form>
-        )}
+          <button type="submit" className="btn btn-primary w-full" style={{ marginTop: '12px', height: '48px' }} disabled={loading}>
+            {loading ? 'Đang đăng ký...' : 'Đăng ký tài khoản'}
+          </button>
+        </form>
 
         <div className="text-center" style={{ marginTop: '24px' }}>
           <p>
