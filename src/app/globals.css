@@ -218,6 +218,19 @@ p {
   outline: none;
 }
 
+.editor-content .ProseMirror {
+  outline: none !important;
+}
+
+.editor-content .ProseMirror *:focus {
+  outline: none !important;
+}
+
+.editor-content .ProseMirror-selectednode {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 .editor-content table {
   border-collapse: collapse;
   width: 100%;

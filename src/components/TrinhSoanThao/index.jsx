@@ -219,7 +219,7 @@ export default function TrinhSoanThao({ post, userId }) {
     } else {
       const now = new Date()
       setSaveStatus(`Đã lưu lúc ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`)
-      
+      setStatus(finalStatus)
       if (!post?.id && returnedPost?.id) {
         router.push(`/dashboard/posts/${returnedPost.id}/edit`)
       }
