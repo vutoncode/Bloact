@@ -40,3 +40,31 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 *.md
+
+# Documents & Text files (Non-code documentation)
+*.txt
+*.pdf
+*.doc
+*.docx
+*.xls
+*.xlsx
+*.ppt
+*.pptx
+doc/
+docs/
+
+# Diagram & Design assets
+Ảnh sơ đồ/
+
+# IDEs & Editor configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# OS metadata
+Thumbs.db
+desktop.ini
