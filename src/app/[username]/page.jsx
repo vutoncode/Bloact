@@ -18,7 +18,8 @@ export default async function TrangChuBlogCaNhan({ params }) {
     .select('*')
     .eq('author_id', profile.id)
     .eq('status', 'published')
-    .order('published_at', { ascending: false })
+    .order('published_at', { ascending: false, nullsFirst: false })
+    .order('view_count', { ascending: false })
 
   return (
     <div>
@@ -27,37 +28,49 @@ export default async function TrangChuBlogCaNhan({ params }) {
           {/* Banner Section */}
           <section className="banner-section">
             <div className="container">
-              <Link href={`/${username}/${posts[0].slug}`} className="banner-post">
-                <img 
-                  src={posts[0].cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop'} 
-                  alt={posts[0].title} 
-                  className="banner-image"
-                />
-                <div className="banner-card">
-                  <span className="tag-label">Technology</span>
-                  <h2>{posts[0].title}</h2>
-                  <div className="post-meta">
-                    <img 
-                      src={profile.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + profile.username} 
-                      alt={profile.display_name} 
-                      className="author-avatar"
-                    />
-                    <span>{profile.display_name || profile.username}</span>
-                    <span>&bull;</span>
-                    <span>{new Date(posts[0].published_at || posts[0].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <div className="banner-grid">
+                <Link href={`/${username}/${posts[0].slug}`} className="banner-post main-banner">
+                  <img 
+                    src={posts[0].cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop'} 
+                    alt={posts[0].title} 
+                    className="banner-image"
+                  />
+                  <div className="banner-card">
+                    <span className="tag-label">Technology</span>
+                    <h2>{posts[0].title}</h2>
+                    <div className="post-meta">
+                      <img 
+                        src={profile.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + profile.username} 
+                        alt={profile.display_name} 
+                        className="author-avatar"
+                      />
+                      <span>{profile.display_name || profile.username}</span>
+                      <span>&bull;</span>
+                      <span>{new Date(posts[0].published_at || posts[0].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </div>
-          </section>
+                </Link>
 
-          {/* Advertisement Section */}
-          <section className="ad-section">
-            <div className="container flex justify-center">
-              <div className="ad-placeholder">
-                <span style={{ color: 'var(--text-secondary)', marginBottom: '4px' }}>Advertisement</span>
-                <span style={{ fontWeight: '600' }}>You can place ads</span>
-                <span>750x100</span>
+                {posts.length > 1 && (
+                  <div className="sub-banners">
+                    {posts.slice(1, 3).map(post => (
+                      <Link href={`/${username}/${post.slug}`} key={post.id} className="banner-post sub-banner">
+                        <img 
+                          src={post.cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=600&auto=format&fit=crop'} 
+                          alt={post.title} 
+                          className="banner-image"
+                        />
+                        <div className="banner-card">
+                          <span className="tag-label">Technology</span>
+                          <h2>{post.title}</h2>
+                          <div className="post-meta">
+                            <span>{new Date(post.published_at || post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>

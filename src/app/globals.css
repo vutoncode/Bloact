@@ -758,3 +758,41 @@ key-frame-placeholder { }
   }
 }
 
+.banner-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.sub-banners {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.banner-post.sub-banner {
+  height: calc((100% - 24px) / 2);
+}
+
+.banner-post.sub-banner .banner-card {
+  padding: 16px;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  max-width: none;
+}
+
+.banner-post.sub-banner h2 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 992px) {
+  .banner-grid {
+    grid-template-columns: 1fr;
+  }
+  .banner-post.sub-banner {
+    height: 300px;
+  }
+}
+
