@@ -78,11 +78,19 @@ export default function BangBaiViet({ initialPosts, username }) {
                   <td>{new Date(post.created_at).toLocaleDateString('vi-VN')}</td>
                   <td className="text-right">
                     <div className="flex justify-end gap-sm">
-                      {post.status === 'published' && (
-                        <a href={postUrl} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ padding: '8px' }} title="Xem bài viết">
-                          <ExternalLink size={16} />
-                        </a>
-                      )}
+                      <a 
+                        href={postUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-secondary" 
+                        style={{ 
+                          padding: '8px', 
+                          visibility: post.status === 'published' ? 'visible' : 'hidden'
+                        }} 
+                        title="Xem bài viết"
+                      >
+                        <ExternalLink size={16} />
+                      </a>
                       <Link href={`/dashboard/posts/${post.id}/edit`} className="btn btn-secondary" style={{ padding: '8px' }} title="Sửa bài viết">
                         <Edit size={16} />
                       </Link>
