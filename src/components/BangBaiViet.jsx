@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase/client'
-import { Edit, Trash, ExternalLink, ArrowUpDown } from 'lucide-react'
+import { Edit, Trash, ExternalLink, ArrowUpDown, Eye, EyeOff } from 'lucide-react'
 
 export default function BangBaiViet({ initialPosts, username }) {
   const [posts, setPosts] = useState(initialPosts || [])
@@ -24,6 +24,24 @@ export default function BangBaiViet({ initialPosts, username }) {
     }
 
     setPosts(posts.filter(post => post.id !== id))
+    setLoadingId(null)
+  }
+
+  const handleToggleVisibility = async (id, currentStatus) => {
+    // If it's a draft, don't allow hiding/showing from here (or allow publishing)
+    // Let's assume we toggle between published and hidden
+    const newStatus = currentStatus === 'hidden' ? 'published' : 'hidden'
+    setLoadingId(id)
+
+    const { error } = await supabase.from('posts').update({ status: newStatus }).eq('id', id)
+
+    if (error) {
+      alert('Lỗi khi cập nhật trạng thái bài viết: ' + error.message)
+      setLoadingId(null)
+      return
+    }
+
+    setPosts(posts.map(post => post.id === id ? { ...post, status: newStatus } : post))
     setLoadingId(null)
   }
 
@@ -125,6 +143,17 @@ export default function BangBaiViet({ initialPosts, username }) {
                       <Link href={`/dashboard/posts/${post.id}/edit`} className="btn btn-secondary" style={{ padding: '8px' }} title="Sửa bài viết">
                         <Edit size={16} />
                       </Link>
+                      {post.status !== 'draft' && (
+                        <button 
+                          onClick={() => handleToggleVisibility(post.id, post.status)}
+                          className="btn btn-secondary"
+                          style={{ padding: '8px' }}
+                          disabled={loadingId === post.id}
+                          title={post.status === 'hidden' ? "Hiện bài viết" : "Ẩn bài viết"}
+                        >
+                          {post.status === 'hidden' ? <Eye size={16} /> : <EyeOff size={16} />}
+                        </button>
+                      )}
                       <button 
                         onClick={() => handleDelete(post.id)} 
                         className="btn btn-danger" 
