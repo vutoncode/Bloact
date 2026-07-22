@@ -138,9 +138,15 @@ export default function DanhSachBaiVietAdmin({ initialPosts, adminId }) {
             </tr>
           </thead>
           <tbody>
-            {filteredPosts.map((p) => (
-              <tr key={p.id}>
-                <td style={{ width: '80px' }}>
+            {filteredPosts.map((p) => {
+              let rowBg = 'transparent'
+              if (p.status === 'published') rowBg = 'rgba(16, 185, 129, 0.04)'
+              if (p.status === 'draft') rowBg = 'rgba(245, 158, 11, 0.06)'
+              if (p.status === 'hidden') rowBg = 'rgba(239, 68, 68, 0.04)'
+
+              return (
+                <tr key={p.id} style={{ backgroundColor: rowBg, transition: 'background-color 0.2s' }}>
+                  <td style={{ width: '80px' }}>
                   <img 
                     src={p.cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=150&auto=format&fit=crop'} 
                     alt={p.title} 
@@ -185,7 +191,8 @@ export default function DanhSachBaiVietAdmin({ initialPosts, adminId }) {
                   </div>
                 </td>
               </tr>
-            ))}
+              )
+            })}
           </tbody>
         </table>
       </div>

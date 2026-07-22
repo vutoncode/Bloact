@@ -78,8 +78,13 @@ export default function BangBaiViet({ initialPosts, username }) {
           <tbody>
             {sortedPosts.map((post) => {
               const postUrl = `http://${mainDomain}/${username}/${post.slug}`
+              let rowBg = 'transparent'
+              if (post.status === 'published') rowBg = 'rgba(16, 185, 129, 0.04)'
+              if (post.status === 'draft') rowBg = 'rgba(245, 158, 11, 0.06)'
+              if (post.status === 'hidden') rowBg = 'rgba(239, 68, 68, 0.04)'
+
               return (
-                <tr key={post.id}>
+                <tr key={post.id} style={{ backgroundColor: rowBg, transition: 'background-color 0.2s' }}>
                   <td style={{ width: '80px' }}>
                     <img 
                       src={post.cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=150&auto=format&fit=crop'} 
