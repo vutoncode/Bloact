@@ -7,7 +7,7 @@ export default async function TrangChuBlogCaNhan({ params }) {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('id')
+    .select('*')
     .eq('username', username)
     .single()
 
@@ -21,46 +21,84 @@ export default async function TrangChuBlogCaNhan({ params }) {
     .order('published_at', { ascending: false })
 
   return (
-    <div className="container" style={{ maxWidth: '800px' }}>
+    <div>
       {posts && posts.length > 0 ? (
-        <div className="flex flex-col gap-lg">
-          {posts.map((post) => {
-            const wordCount = post.content ? JSON.stringify(JSON.parse(post.content)).split(/\s+/).length : 0
-            const readTime = Math.ceil(wordCount / 200) || 1
-
-            return (
-              <article key={post.id} className="card" style={{ padding: 0, overflow: 'hidden' }}>
-                {post.cover_image_url && (
-                  <Link href={`/${username}/${post.slug}`}>
+        <>
+          {/* Banner Section */}
+          <section className="banner-section">
+            <div className="container">
+              <Link href={`/${username}/${posts[0].slug}`} className="banner-post">
+                <img 
+                  src={posts[0].cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=1200&auto=format&fit=crop'} 
+                  alt={posts[0].title} 
+                  className="banner-image"
+                />
+                <div className="banner-card">
+                  <span className="tag-label">Technology</span>
+                  <h2>{posts[0].title}</h2>
+                  <div className="post-meta">
                     <img 
-                      src={post.cover_image_url} 
-                      alt={post.title} 
-                      style={{ width: '100%', maxHeight: '300px', objectFit: 'cover' }}
+                      src={profile.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + profile.username} 
+                      alt={profile.display_name} 
+                      className="author-avatar"
                     />
-                  </Link>
-                )}
-                <div style={{ padding: '32px' }}>
-                  <div style={{ fontSize: '14px', color: 'var(--text-tertiary)', marginBottom: '12px' }}>
-                    {new Date(post.published_at || post.created_at).toLocaleDateString('vi-VN')} &bull; {readTime} phút đọc
+                    <span>{profile.display_name || profile.username}</span>
+                    <span>&bull;</span>
+                    <span>{new Date(posts[0].published_at || posts[0].created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                   </div>
-                  <h2 style={{ fontSize: '28px', marginBottom: '16px' }}>
-                    <Link href={`/${username}/${post.slug}`} style={{ color: 'var(--text-primary)' }}>
-                      {post.title}
-                    </Link>
-                  </h2>
-                  {post.excerpt && (
-                    <p style={{ color: 'var(--text-secondary)', marginBottom: '24px', fontSize: '16px' }}>
-                      {post.excerpt}
-                    </p>
-                  )}
-                  <Link href={`/${username}/${post.slug}`} className="btn btn-secondary" style={{ padding: '8px 16px', fontSize: '14px' }}>
-                    Đọc tiếp
-                  </Link>
                 </div>
-              </article>
-            )
-          })}
-        </div>
+              </Link>
+            </div>
+          </section>
+
+          {/* Advertisement Section */}
+          <section className="ad-section">
+            <div className="container flex justify-center">
+              <div className="ad-placeholder">
+                <span style={{ color: 'var(--text-secondary)', marginBottom: '4px' }}>Advertisement</span>
+                <span style={{ fontWeight: '600' }}>You can place ads</span>
+                <span>750x100</span>
+              </div>
+            </div>
+          </section>
+
+          {/* Latest Posts Grid */}
+          <section className="posts-section">
+            <div className="container">
+              <h3 className="section-title">Latest Post</h3>
+              <div className="post-grid">
+                {posts.slice(1).map(post => (
+                  <Link href={`/${username}/${post.slug}`} key={post.id} className="post-card">
+                    <img 
+                      src={post.cover_image_url || 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?q=80&w=600&auto=format&fit=crop'} 
+                      alt={post.title} 
+                      className="post-card-image"
+                    />
+                    <div className="post-card-content">
+                      <span className="tag-label">Technology</span>
+                      <h3>{post.title}</h3>
+                      <div className="post-meta" style={{ marginTop: 'auto' }}>
+                        <img 
+                          src={profile.avatar_url || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + profile.username} 
+                          alt={profile.display_name} 
+                          className="author-avatar"
+                          style={{ width: '24px', height: '24px' }}
+                        />
+                        <span style={{ fontSize: '13px' }}>{profile.display_name || profile.username}</span>
+                        <span style={{ fontSize: '13px' }}>{new Date(post.published_at || post.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              {posts.length > 9 && (
+                <div className="flex justify-center">
+                  <button className="btn btn-secondary">View All Post</button>
+                </div>
+              )}
+            </div>
+          </section>
+        </>
       ) : (
         <div className="text-center" style={{ padding: '80px 0' }}>
           <p style={{ color: 'var(--text-secondary)', fontSize: '18px' }}>Chưa có bài viết nào được xuất bản.</p>
