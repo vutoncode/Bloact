@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { createClient } from '../lib/supabase/client'
-import { Edit, Trash, ExternalLink } from 'lucide-react'
+import { Edit, Trash, ExternalLink, ArrowUpDown } from 'lucide-react'
 
 export default function BangBaiViet({ initialPosts, username }) {
   const [posts, setPosts] = useState(initialPosts || [])
   const [loadingId, setLoadingId] = useState(null)
+  const [sortOrder, setSortOrder] = useState('newest')
   const supabase = createClient()
 
   const handleDelete = async (id) => {
@@ -26,11 +27,36 @@ export default function BangBaiViet({ initialPosts, username }) {
     setLoadingId(null)
   }
 
+  const sortedPosts = useMemo(() => {
+    return [...posts].sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime()
+      const dateB = new Date(b.created_at).getTime()
+      return sortOrder === 'newest' ? dateB - dateA : dateA - dateB
+    })
+  }, [posts, sortOrder])
+
   const mainDomain = process.env.NEXT_PUBLIC_MAIN_DOMAIN || 'localhost:3000'
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-primary)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
-      {posts.length === 0 ? (
+    <div>
+      {posts.length > 0 && (
+        <div className="flex justify-end" style={{ marginBottom: '16px' }}>
+          <div className="flex align-center gap-xs">
+            <ArrowUpDown size={16} style={{ color: 'var(--text-secondary)' }} />
+            <select 
+              className="form-control" 
+              style={{ width: '150px', padding: '8px 12px', fontSize: '14px', cursor: 'pointer' }}
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value)}
+            >
+              <option value="newest">Mới nhất</option>
+              <option value="oldest">Cũ nhất</option>
+            </select>
+          </div>
+        </div>
+      )}
+      <div style={{ backgroundColor: 'var(--bg-primary)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border-color)', boxShadow: 'var(--shadow-sm)' }}>
+        {posts.length === 0 ? (
         <div className="text-center" style={{ padding: '48px 24px' }}>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '16px' }}>Bạn chưa có bài viết nào.</p>
           <Link href="/dashboard/posts/new" className="btn btn-primary">
@@ -50,7 +76,7 @@ export default function BangBaiViet({ initialPosts, username }) {
             </tr>
           </thead>
           <tbody>
-            {posts.map((post) => {
+            {sortedPosts.map((post) => {
               const postUrl = `http://${mainDomain}/${username}/${post.slug}`
               return (
                 <tr key={post.id}>
@@ -111,6 +137,8 @@ export default function BangBaiViet({ initialPosts, username }) {
           </tbody>
         </table>
       )}
+      </div>
     </div>
   )
 }
+
